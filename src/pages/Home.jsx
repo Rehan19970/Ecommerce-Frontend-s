@@ -22,11 +22,12 @@ const Home = () => {
     dispatch(fetchNewArrivals());
     dispatch(fetchOnSale());
     
-    // AOS ko thora smooth aur fast karne ke liye settings
+    // Animation ko smooth aur fast karne ke liye
     AOS.init({
-      duration: 600, // Animation speed (thori fast)
-      once: true,    // Sirf ek dafa animate ho, scroll wapas aane par na ho
-      offset: 20,    // Jab element screen ke thora qareeb aaye toh show ho jaye
+      duration: 500, // Animation speed (fast aur smooth)
+      once: true,    // Sirf ek dafa animate ho
+      offset: 10,    // Jaise hi screen par aaye, foran show ho (wait kam)
+      easing: 'ease-out-cubic', // Smooth animation style
     });
     AOS.refresh();
   }, [dispatch]);
@@ -112,7 +113,6 @@ const Home = () => {
             </Link>
           </div>
 
-          {/* Yahan se AOS delay hata diya hai taake products foran show hon */}
           <div data-aos="fade-up">
             <ProductList products={featured} loading={loading} />
           </div>
@@ -180,7 +180,6 @@ const Home = () => {
           </Link>
         </div>
 
-        {/* Yahan se bhi AOS delay hata diya hai taake New Arrivals ka wait na ho */}
         <div data-aos="fade-up">
           <ProductList products={newArrivals} loading={loading} />
         </div>
