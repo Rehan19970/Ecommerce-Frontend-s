@@ -1,0 +1,5 @@
+# Root .gitignore
+node_modules/
+backend/
+frontend/node_modules/
+.env
