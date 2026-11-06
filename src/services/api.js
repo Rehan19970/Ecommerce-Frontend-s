@@ -1,14 +1,19 @@
 import axios from 'axios';
 
+// Smart URL detection: Agar live (Vercel) par hai to Render use karega, warna localhost
+const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+const baseURL = isProduction 
+  ? 'https://ecommerce-backend-s.onrender.com/api' 
+  : 'http://localhost:5000/api';
+
 const api = axios.create({
-  // Vercel wala variable use karega, agar na mile toh localhost chalega
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor — token add karo
+// ... baaki interceptor code same rahega
 api.interceptors.request.use(
   (config) => {
     const userInfo = localStorage.getItem('userInfo');
@@ -27,7 +32,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor — 401 par logout
 api.interceptors.response.use(
   (response) => response,
   (error) => {
