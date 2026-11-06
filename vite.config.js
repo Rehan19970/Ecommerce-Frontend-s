@@ -8,8 +8,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
-      // Yahan woh saare icons add karein jo aapne ZIP se nikale hain
+      registerType: 'autoUpdate', // Service worker ko auto update karega
+      injectRegister: 'auto', // Khud script inject karega
+      // Public folder wali files jo cache honi chahiye
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'favicon-32x32.png', 'favicon-16x16.png'],
       manifest: {
         name: 'Roshys - Premium Fashion Store',
@@ -21,8 +22,6 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            // Agar aapne ZIP wale icon ka naam change karke icon-192.png nahi rakha, 
-            // toh yahan us file ka asli naam likhein (jaise android-chrome-192x192.png)
             src: '/android-chrome-192x192.png', 
             sizes: '192x192',
             type: 'image/png',
@@ -41,10 +40,11 @@ export default defineConfig({
         ],
       },
       workbox: {
+        // PWA build ke waqt purani cache clear karne ke liye
+        cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
         runtimeCaching: [
           {
-            // Yeh Cloudinary ki images ko cache karega taake website fast chale
             urlPattern: /^https:\/\/res\.cloudinary\.com\/.*/i,
             handler: 'CacheFirst',
             options: {
