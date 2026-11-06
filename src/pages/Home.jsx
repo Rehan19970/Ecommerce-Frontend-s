@@ -21,6 +21,13 @@ const Home = () => {
     dispatch(fetchFeatured());
     dispatch(fetchNewArrivals());
     dispatch(fetchOnSale());
+    
+    // AOS ko thora smooth aur fast karne ke liye settings
+    AOS.init({
+      duration: 600, // Animation speed (thori fast)
+      once: true,    // Sirf ek dafa animate ho, scroll wapas aane par na ho
+      offset: 20,    // Jab element screen ke thora qareeb aaye toh show ho jaye
+    });
     AOS.refresh();
   }, [dispatch]);
 
@@ -56,24 +63,24 @@ const Home = () => {
   ];
 
   return (
-    <div>
+    <div className="overflow-hidden">
       <HeroBanner />
 
       {/* ===== Categories ===== */}
       <section className="container-brand section-padding">
-        <div className="text-center mb-14" data-aos="fade-up">
+        <div className="text-center mb-10 md:mb-14" data-aos="fade-up">
           <p className="text-[10px] uppercase tracking-[0.3em] text-brand-gold mb-3">
             Explore
           </p>
-          <h2 className="font-heading text-4xl md:text-5xl mb-3">
+          <h2 className="font-heading text-3xl md:text-5xl mb-3">
             Shop by Category
           </h2>
           <div className="w-16 h-px bg-brand-gold mx-auto"></div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {categories.map((cat, i) => (
-            <div key={cat.name} data-aos="fade-up" data-aos-delay={i * 100}>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          {categories.map((cat) => (
+            <div key={cat.name} data-aos="fade-up">
               <CategoryCard category={cat} size={cat.size} />
             </div>
           ))}
@@ -84,7 +91,7 @@ const Home = () => {
       <section className="bg-brand-cream section-padding">
         <div className="container-brand">
           <div
-            className="flex flex-col md:flex-row md:justify-between md:items-end mb-12 gap-4"
+            className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-4"
             data-aos="fade-up"
           >
             <div>
@@ -105,14 +112,15 @@ const Home = () => {
             </Link>
           </div>
 
-          <div data-aos="fade-up" data-aos-delay="100">
+          {/* Yahan se AOS delay hata diya hai taake products foran show hon */}
+          <div data-aos="fade-up">
             <ProductList products={featured} loading={loading} />
           </div>
         </div>
       </section>
 
       {/* ===== Sale Banner ===== */}
-      <section className="relative h-125 md:h-150 overflow-hidden">
+      <section className="relative h-[400px] md:h-[600px] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-fixed"
           style={{
@@ -123,19 +131,19 @@ const Home = () => {
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
         <div className="relative h-full flex items-center justify-center text-center text-white px-4">
-          <div className="max-w-3xl" data-aos="fade-up">
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-brand-gold mb-5">
+          <div className="max-w-3xl" data-aos="zoom-in">
+            <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-brand-gold mb-4 md:mb-5">
               Limited Time Offer
             </p>
-            <h2 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold mb-5 leading-tight">
+            <h2 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-5 leading-tight">
               End of Season Sale
             </h2>
-            <p className="text-base md:text-lg text-white/80 mb-8 max-w-xl mx-auto">
+            <p className="text-sm md:text-lg text-white/80 mb-6 md:mb-8 max-w-xl mx-auto">
               Up to 50% off on selected items
             </p>
             <Link
               to="/products?isOnSale=true"
-              className="group inline-flex items-center gap-3 bg-white text-brand-black px-10 py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-brand-gold hover:text-white transition-all duration-500"
+              className="group inline-flex items-center gap-3 bg-white text-brand-black px-8 md:px-10 py-3 md:py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-brand-gold hover:text-white transition-all duration-500"
             >
               Shop Sale
               <span className="transform group-hover:translate-x-1 transition-transform">
@@ -149,7 +157,7 @@ const Home = () => {
       {/* ===== New Arrivals ===== */}
       <section className="container-brand section-padding">
         <div
-          className="flex flex-col md:flex-row md:justify-between md:items-end mb-12 gap-4"
+          className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-4"
           data-aos="fade-up"
         >
           <div>
@@ -172,7 +180,8 @@ const Home = () => {
           </Link>
         </div>
 
-        <div data-aos="fade-up" data-aos-delay="100">
+        {/* Yahan se bhi AOS delay hata diya hai taake New Arrivals ka wait na ho */}
+        <div data-aos="fade-up">
           <ProductList products={newArrivals} loading={loading} />
         </div>
       </section>
@@ -182,7 +191,7 @@ const Home = () => {
         <section className="bg-brand-cream section-padding">
           <div className="container-brand">
             <div
-              className="flex flex-col md:flex-row md:justify-between md:items-end mb-12 gap-4"
+              className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-4"
               data-aos="fade-up"
             >
               <div>
@@ -205,7 +214,7 @@ const Home = () => {
               </Link>
             </div>
 
-            <div data-aos="fade-up" data-aos-delay="100">
+            <div data-aos="fade-up">
               <ProductList products={onSale} loading={loading} />
             </div>
           </div>
@@ -214,9 +223,9 @@ const Home = () => {
 
       {/* ===== Brand Story ===== */}
       <section className="container-brand section-padding">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
           <div
-            className="relative aspect-4/5 overflow-hidden"
+            className="relative aspect-[4/5] overflow-hidden"
             data-aos="fade-right"
           >
             <img
@@ -227,7 +236,7 @@ const Home = () => {
             <div className="absolute inset-4 border border-brand-gold/40 pointer-events-none"></div>
           </div>
 
-          <div data-aos="fade-left" data-aos-delay="200">
+          <div data-aos="fade-left">
             <p className="text-[10px] uppercase tracking-[0.3em] text-brand-gold mb-3">
               Our Story
             </p>
@@ -254,28 +263,27 @@ const Home = () => {
       </section>
 
       {/* ===== Features ===== */}
-      <section className="bg-brand-black text-white py-20">
+      <section className="bg-brand-black text-white py-16 md:py-20">
         <div className="container-brand">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {[
               { icon: '🚚', title: 'Free Shipping', desc: 'Orders above Rs. 5,000' },
               { icon: '↩️', title: 'Easy Returns', desc: '7 days return policy' },
               { icon: '🔒', title: 'Secure Payment', desc: '100% safe checkout' },
               { icon: '💬', title: '24/7 Support', desc: 'Always here to help' },
-            ].map((feat, i) => (
+            ].map((feat) => (
               <div
                 key={feat.title}
                 className="text-center group"
                 data-aos="fade-up"
-                data-aos-delay={i * 100}
               >
                 <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-500">
                   {feat.icon}
                 </div>
-                <h3 className="font-heading text-base md:text-lg mb-1">
+                <h3 className="font-heading text-sm md:text-lg mb-1">
                   {feat.title}
                 </h3>
-                <p className="text-xs text-white/50">{feat.desc}</p>
+                <p className="text-[10px] md:text-xs text-white/50">{feat.desc}</p>
               </div>
             ))}
           </div>
@@ -284,7 +292,7 @@ const Home = () => {
 
       {/* ===== Instagram ===== */}
       <section className="container-brand section-padding">
-        <div className="text-center mb-12" data-aos="fade-up">
+        <div className="text-center mb-8 md:mb-12" data-aos="fade-up">
           <p className="text-[10px] uppercase tracking-[0.3em] text-brand-gold mb-3">
             @roshys
           </p>
@@ -294,7 +302,7 @@ const Home = () => {
           <p className="text-sm text-brand-grey">Get daily style inspiration</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3">
           {[
             'photo-1483985988355-763728e1935b',
             'photo-1490578474895-699cd4e2cf59',
@@ -308,7 +316,6 @@ const Home = () => {
               href="#"
               className="group relative aspect-square overflow-hidden"
               data-aos="zoom-in"
-              data-aos-delay={i * 80}
             >
               <img
                 src={`https://images.unsplash.com/${id}?w=400`}
