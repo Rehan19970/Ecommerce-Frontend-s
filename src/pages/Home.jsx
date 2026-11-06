@@ -22,14 +22,11 @@ const Home = () => {
     dispatch(fetchNewArrivals());
     dispatch(fetchOnSale());
     
-    // Animation ko smooth aur fast karne ke liye
     AOS.init({
-      duration: 500, // Animation speed (fast aur smooth)
-      once: true,    // Sirf ek dafa animate ho
-      offset: 10,    // Jaise hi screen par aaye, foran show ho (wait kam)
-      easing: 'ease-out-cubic', // Smooth animation style
+      duration: 600,
+      once: true,
+      offset: 20,
     });
-    AOS.refresh();
   }, [dispatch]);
 
   const categories = [
@@ -91,10 +88,7 @@ const Home = () => {
       {/* ===== Featured ===== */}
       <section className="bg-brand-cream section-padding">
         <div className="container-brand">
-          <div
-            className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-4"
-            data-aos="fade-up"
-          >
+          <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-4" data-aos="fade-up">
             <div>
               <p className="text-[10px] uppercase tracking-[0.3em] text-brand-gold mb-3">
                 Curated
@@ -113,9 +107,8 @@ const Home = () => {
             </Link>
           </div>
 
-          <div data-aos="fade-up">
-            <ProductList products={featured} loading={loading} />
-          </div>
+          {/* Products load hote hi foran show honge, AOS nahi lagaya taake delay na ho */}
+          <ProductList products={featured} loading={loading} />
         </div>
       </section>
 
@@ -156,10 +149,7 @@ const Home = () => {
 
       {/* ===== New Arrivals ===== */}
       <section className="container-brand section-padding">
-        <div
-          className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-4"
-          data-aos="fade-up"
-        >
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-4" data-aos="fade-up">
           <div>
             <p className="text-[10px] uppercase tracking-[0.3em] text-brand-gold mb-3">
               Fresh
@@ -180,19 +170,15 @@ const Home = () => {
           </Link>
         </div>
 
-        <div data-aos="fade-up">
-          <ProductList products={newArrivals} loading={loading} />
-        </div>
+        {/* Yahan se bhi AOS hata diya taake cards ruk kar show na hon */}
+        <ProductList products={newArrivals} loading={loading} />
       </section>
 
       {/* ===== On Sale ===== */}
       {onSale?.length > 0 && (
         <section className="bg-brand-cream section-padding">
           <div className="container-brand">
-            <div
-              className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-4"
-              data-aos="fade-up"
-            >
+            <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 md:mb-12 gap-4" data-aos="fade-up">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.3em] text-brand-gold mb-3">
                   Deals
@@ -213,9 +199,7 @@ const Home = () => {
               </Link>
             </div>
 
-            <div data-aos="fade-up">
-              <ProductList products={onSale} loading={loading} />
-            </div>
+            <ProductList products={onSale} loading={loading} />
           </div>
         </section>
       )}
@@ -223,10 +207,7 @@ const Home = () => {
       {/* ===== Brand Story ===== */}
       <section className="container-brand section-padding">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
-          <div
-            className="relative aspect-[4/5] overflow-hidden"
-            data-aos="fade-right"
-          >
+          <div className="relative aspect-[4/5] overflow-hidden" data-aos="fade-right">
             <img
               src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800"
               alt="Roshys Brand"
@@ -271,11 +252,7 @@ const Home = () => {
               { icon: '🔒', title: 'Secure Payment', desc: '100% safe checkout' },
               { icon: '💬', title: '24/7 Support', desc: 'Always here to help' },
             ].map((feat) => (
-              <div
-                key={feat.title}
-                className="text-center group"
-                data-aos="fade-up"
-              >
+              <div key={feat.title} className="text-center group" data-aos="fade-up">
                 <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-500">
                   {feat.icon}
                 </div>
